@@ -1,7 +1,14 @@
 import java.util.Arrays;
 import java.util.Objects;
 
+
 class ProductPackaging {
+    /*
+    * Упаковка товара
+    *
+    * nameOfPacking - название упаковки
+    * weightOfPacking - вес упаковки
+    * */
     private String nameOfPacking;
     private double weightOfPacking;
 
@@ -50,6 +57,12 @@ class ProductPackaging {
 }
 
 class Product {
+    /*
+    * Продукт
+    *
+    * nameOfProduct - название продукта
+    * descriptionOfProduct - описание продукта
+    * */
     private String nameOfProduct;
     private String descriptionOfProduct;
 
@@ -94,13 +107,63 @@ class Product {
     }
 }
 
-class WeightProduct extends  Product{
+class WeightProduct{
+    /*
+    * Весовой продукт
+    *
+    * nameOfProduct - название продукта
+    * descriptionOfProduct - описание продукта
+    * */
+    private String nameOfProduct;
+    private String descriptionOfProduct;
+
     public WeightProduct(String nameOfProduct, String descriptionOfProduct) {
-        super(nameOfProduct, descriptionOfProduct);
+        this.nameOfProduct = nameOfProduct;
+        this.descriptionOfProduct = descriptionOfProduct;
+    }
+
+    public String getNameOfProduct() {
+        return nameOfProduct;
+    }
+    public String getDescriptionOfProduct() {
+        return descriptionOfProduct;
+    }
+
+    public void setNameOfProduct(String nameOfProduct) {
+        this.nameOfProduct = nameOfProduct;
+    }
+    public void setDescription(String descriptionOfProduct) {
+        this.descriptionOfProduct = descriptionOfProduct;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WeightProduct that = (WeightProduct) o;
+        return Objects.equals(nameOfProduct, that.nameOfProduct) && Objects.equals(descriptionOfProduct, that.descriptionOfProduct);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameOfProduct, descriptionOfProduct);
+    }
+
+    @Override
+    public String toString() {
+        return "WeightProduct{" +
+                "nameOfProduct='" + nameOfProduct + '\'' +
+                ", descriptionOfProduct='" + descriptionOfProduct + '\'' +
+                '}';
     }
 }
 
 class PieceOfProduct extends Product {
+    /*
+    * Штучный товар
+    *
+    * weightOfOnePiece - вес одной штуки
+    * */
     private double weightOfOnePiece;
 
     public PieceOfProduct(String nameOfProduct, String descriptionOfProduct, double weightOfOnePiece) {
@@ -209,7 +272,23 @@ class PackedWeightProduct implements Package {
     }
 }
 
+interface Package {
+    /*
+    * Упаковка
+    * */
+    double getBrutto();
+
+    double getNetto();
+
+    String getName();
+}
+
 class PackagedPieceOfProduct implements Package {
+    /*
+    * Упакованный штучный товар
+    *
+    * countOfPieces - количество штук товара
+    * */
     private int countOfPieces;
     private PieceOfProduct pieceOfProduct;
     private ProductPackaging productPackaging;
@@ -278,15 +357,11 @@ class PackagedPieceOfProduct implements Package {
     }
 }
 
-interface Package {
-    double getBrutto();
-
-    double getNetto();
-
-    String getName();
-}
 
 class ConsignmentOfProduct  {
+    /*
+    * Партия товара
+    * */
     private String descriptionOfProduct;
     private Package[] packages;
 
